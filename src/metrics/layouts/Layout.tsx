@@ -1,10 +1,10 @@
-import { Box, Typography } from "@mui/material"
+import { Box } from "@mui/material"
 import { NavBar } from "../ui/NavBar";
 import { SideBar } from "../ui/SideBar";
 
 interface IProps {
     title?:string;
-    children: JSX.Element| JSX.Element[];
+    children: React.ReactNode;
 }
 export const Layout = ({children}:IProps) => {
   return (
