@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -8,46 +9,56 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { Layout } from "../layouts";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useCreateShortUrlMutation } from "../../store/apiSlice";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useForm } from "../../hooks/useForm";
+import { useEffect } from "react";
 
 export const CreateUrlPage = () => {
-
-  
   const [createShortUrl, result] = useCreateShortUrlMutation();
-  const { error:httpError } = result;
+  const { error: httpError } = result;
   const { formState, onInputChange, error, onResetForm } = useForm({
-    url: '',
-    shortUlr:''
+    url: "",
   });
-  
-  const showAlertError =()=>{
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: httpError.data,
-      footer: `<a href="${httpError.data.substring(50)}" target="_blank">${httpError.data.substring(50)}</a>`
-    })
-  }
 
-if( httpError ){
-  showAlertError();
-}
+  const showAlertError = () => {
+    if (httpError && httpError.data.length > 50) {
+      const url = httpError.data.substring(50);
+      console.log({ url });
+      Swal.fire({
+        icon: "success",
+        title: "Ooops",
+        text: httpError.data,
+        footer: `<a href="${url}" target="_blank">${httpError.data.substring(
+          50
+        )}</a>`,
+      });
+    } else if (httpError && httpError.data.length < 50) {
+      const url = httpError.data.substring(8);
+      const concatUrl = `http://localhost:8080/${url}`;
+
+      Swal.fire({
+        icon: "success",
+        title: "Su url fue creada con éxito",
+        text: httpError.data,
+        footer: `<a href="${concatUrl}" target="_blank">${httpError.data}</a>`,
+      });
+    }
+    result.error = null;
+  };
+
+  useEffect(() => {
+    showAlertError();
+  }, [httpError]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
- try {
-   await createShortUrl(formState.url);
-  
- } catch (error) {
-  console.log(error)
- }
+    try {
+      await createShortUrl(formState.url);
+    } catch (error) {
+      console.log(error);
+    }
     onResetForm();
   };
-
-
-
-
 
   return (
     <Layout>
@@ -67,7 +78,6 @@ if( httpError ){
         >
           <Grid
             item
-           
             sx={{ backgroundColor: "#F1EFF4", padding: 3, borderRadius: 2 }}
           >
             <Typography variant="h4" sx={{ mb: 0 }}>
@@ -83,19 +93,7 @@ if( httpError ){
                     value={formState.url}
                     placeholder="Crea tu url"
                     fullWidth
-                    sx={{ width: '100%' }} 
-                    onChange={onInputChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label="short-url"
-                    type="text"
-                    name="short-url"
-                    value={formState.shortUlr}
-                    placeholder="Tu url es"
-                    fullWidth
-                    sx={{ width: '100%' }} 
+                    sx={{ width: "100%" }}
                     onChange={onInputChange}
                   />
                 </Grid>
@@ -105,7 +103,7 @@ if( httpError ){
                   <Button
                     variant="contained"
                     type="submit"
-                    disabled={!!error || (formState.url.length === 0)}
+                    disabled={!!error || formState.url.length === 0}
                   >
                     <Typography sx={{ mr: 1 }}>Crear</Typography>
                     <AddCircleOutlineOutlinedIcon />

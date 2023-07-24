@@ -1,30 +1,29 @@
 import { createTheme } from "@mui/material";
-import { red } from "@mui/material/colors";
+import { amber, deepOrange, grey } from "@mui/material/colors";
 
+
+const mode ='light'
 export const darkTheme = createTheme({
-    palette:{
-        mode:'dark',
-        
-        primary:{
-            main:'#FDFA2F'
-        },
-        secondary:{
-        main:'#19857b'
-        
-        },
-        error:{
-            main:red.A400
-        },  
-    },
-    components:{
-        MuiAppBar:{
-    defaultProps:{},
-    styleOverrides:{
-        root:{
-          backgroundColor:'#370372'  
+   
+        palette:{
+            mode,
+            ...(mode === 'light'
+            ? {
+                primary:deepOrange,
+                divider:deepOrange[200],
+                background:{
+                    default:deepOrange[900],
+                    paper:deepOrange[100],
+                }
+            }:{
+                primary:amber,
+                divider:amber[200],
+                text:{
+                    primary:'#fff',
+                    secondary:grey[500],
+                }
+            }
+            )
         }
-    }
-    
-        }
-    }
+      
 })

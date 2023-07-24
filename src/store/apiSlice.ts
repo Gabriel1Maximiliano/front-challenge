@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import {  createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface DataResp {
   amount_of_clicks: number;
@@ -16,13 +16,17 @@ export interface DataResp {
 type PostsResponse = DataResp[];
 type CreateResponse = DataResp | string;
 
-
-
-export const apiSlice:any = createApi({
+export const apiSlice: any = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080",
   }),
+  keepUnusedDataFor: 60,
+
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
+  refetchOnMountOrArgChange: true,
+
   tagTypes: ["info"],
   endpoints: (builder) => ({
     getUrls: builder.query<PostsResponse, void>({
@@ -31,7 +35,7 @@ export const apiSlice:any = createApi({
     }),
     deleteShortUrl: builder.mutation<CreateResponse, string>({
       query: (shortUrl) => ({
-        url: `/api/url/${shortUrl}/delete`, 
+        url: `/api/url/${shortUrl}/delete`,
         method: "PUT",
       }),
       invalidatesTags: ["info"],
@@ -74,10 +78,10 @@ export const apiSlice:any = createApi({
     createShortUrl: builder.mutation<CreateResponse, string>({
       query: (longUrl) => ({
         url: `/api/url/create-short-url`,
-        method:'POST',
-        body:{
-          long_url:longUrl,
-        }
+        method: "POST",
+        body: {
+          long_url: longUrl,
+        },
       }),
       invalidatesTags: ["info"],
     }),
@@ -89,8 +93,7 @@ export const {
   useCreateShortUrlMutation,
   useRedirectShortUrlMutation,
   useRestoreShortUrlMutation,
- useGetActiveShortUrlQuery,
- useGetInactiveShortUrlQuery,
- useGetAllShortUrlQuery,
-
+  useGetActiveShortUrlQuery,
+  useGetInactiveShortUrlQuery,
+  useGetAllShortUrlQuery,
 } = apiSlice;

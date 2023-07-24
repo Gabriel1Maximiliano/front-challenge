@@ -9,17 +9,16 @@ import { UIProvider } from "./metrics/context/ui/UIProvider.tsx";
 
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
-
-
+//import CssBaseline from "@mui/material/CssBaseline";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider store={store} >
-    <BrowserRouter>
-      <UIProvider>
-        <AppRouter />
-      </UIProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <UIProvider>
+          <AppRouter />
+        </UIProvider>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );

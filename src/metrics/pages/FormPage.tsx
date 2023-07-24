@@ -8,15 +8,27 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
 import { Layout } from "../layouts";
-import { Chip, Grid, Box, Typography, CircularProgress } from "@mui/material";
+import {
+  Chip,
+  Grid,
+  Box,
+  Typography,
+  CircularProgress,
+  Alert,
+} from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { useGetUrlsQuery, useDeleteShortUrlMutation, useRedirectShortUrlMutation,useRestoreShortUrlMutation } from "../../store/apiSlice";
+import {
+  useGetUrlsQuery,
+  useDeleteShortUrlMutation,
+  useRedirectShortUrlMutation,
+  useRestoreShortUrlMutation,
+} from "../../store/apiSlice";
 import { useEffect, useState } from "react";
 
 export interface DataResp {
   id: number;
   long_url: string;
-  dateOfCreate:Date | number,
+  dateOfCreate: Date | number;
   is_active: number;
   short_url: string;
   amount_of_clicks: number;
@@ -29,22 +41,26 @@ export const FormPage = () => {
     { field: "id", headerName: "ID", width: 25 },
     { field: "long_url", headerName: "Url", width: 200 },
     { field: "dateOfCreate", headerName: "Creada", width: 200 },
-    { field: "short_url", headerName: "Short Url", width: 200,
-    renderCell: (params: any) => {
-      return (
-        <a href={`http://localhost:8080/${params.row.short_url.substring(8)}`} target="_blank">
-          <Chip
-          color="success"
-          label={params.row.short_url}
-          variant="outlined"
-          onClick={() => handleRedirectUrl(params.row)}
-        />
+    {
+      field: "short_url",
+      headerName: "Short Url",
+      width: 200,
+      renderCell: (params: any) => {
+        return (
+          <a
+            href={`http://localhost:8080/${params.row.short_url.substring(8)}`}
+            target="_blank"
+          >
+            <Chip
+              color="success"
+              label={params.row.short_url}
+              variant="outlined"
+              onClick={() => handleRedirectUrl(params.row)}
+            />
           </a>
-        
-      )
+        );
+      },
     },
-  
-  },
     { field: "amount_of_clicks", headerName: "Cant. Clicks", width: 100 },
     { field: "deleted_of_time", headerName: "Fecha de borrado", width: 200 },
     { field: "retrieved_time", headerName: "Tiempo de ejecución", width: 200 },
@@ -55,7 +71,6 @@ export const FormPage = () => {
       width: 100,
 
       renderCell: (params: any) => {
-       
         return params.row.is_active !== 1 ? (
           <Chip
             color="success"
@@ -75,61 +90,46 @@ export const FormPage = () => {
     },
   ];
   const pageSizeOptions = [10, 25, 50, 100];
-  
-  const { data, isLoading } = useGetUrlsQuery();
+
+  const { data, isLoading, isFetching } = useGetUrlsQuery();
   const [rows, setRows] = useState<DataResp[]>([]);
   const [deleteUrl] = useDeleteShortUrlMutation();
-  const [ redirectUrl ] =useRedirectShortUrlMutation();
-  const [ restoreUrl ] =useRestoreShortUrlMutation();
+  const [redirectUrl] = useRedirectShortUrlMutation();
+  const [restoreUrl] = useRestoreShortUrlMutation();
 
-
-  const handleRedirectUrl = async (row: DataResp) =>{
-   
+  const handleRedirectUrl = async (row: DataResp) => {
     const lastSlashIndex = row.short_url.lastIndexOf("/"); // Encuentra el índice del último "/"
     const hashToSearch = row.short_url.substring(lastSlashIndex + 1);
-  try {
-      const info =  await redirectUrl(hashToSearch);
-      console.log(info)
-    
-  } catch (error) {
-    console.log(error);
-   
-  }
-   
-
-
-  }
-
-  const handleRestoreAndDeleteUrl = async(row: DataResp) =>{
-
-    const lastSlashIndex = row.short_url.lastIndexOf("/"); 
-    const hashToSearch = row.short_url.substring(lastSlashIndex + 1);
-    if( row.is_active == 1 ){
-      console.log('entre con 1')
-        try {
-       return await restoreUrl(hashToSearch);
-        } catch (error) {
-          console.log(error)
-        }
-    }else if(row.is_active == 0 ){
-      console.log('entre con 0')
-      return await deleteUrl(hashToSearch);
-
+    try {
+      const info = await redirectUrl(hashToSearch);
+      console.log(info);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-
-
-
-  }
-
-  
+  const handleRestoreAndDeleteUrl = async (row: DataResp) => {
+    const lastSlashIndex = row.short_url.lastIndexOf("/");
+    const hashToSearch = row.short_url.substring(lastSlashIndex + 1);
+    if (row.is_active == 1) {
+      console.log("entre con 1");
+      try {
+        return await restoreUrl(hashToSearch);
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (row.is_active == 0) {
+      console.log("entre con 0");
+      return await deleteUrl(hashToSearch);
+    }
+  };
 
   useEffect(() => {
     if (data) {
       const transformedRows = data.map((url: any) => ({
         id: url.id,
         long_url: url.long_url,
-        dateOfCreate:url.dateOfCreate,
+        dateOfCreate: url.dateOfCreate,
         short_url: url.short_url,
         amount_of_clicks: url.amount_of_clicks,
         deleted_of_time: url.deleted_of_time,
@@ -142,37 +142,42 @@ export const FormPage = () => {
 
   return (
     <Layout>
-      {isLoading ? ( <Box
+      <Box display="flex" justifyContent="flex-end" padding={2}>
+        {isFetching ? <Alert severity="info">Actualizando info!</Alert> : ""}
+      </Box>
+      {isLoading ? (
+        <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
-          height="100vh" 
+          height="100vh"
         >
           <CircularProgress disableShrink />
-        </Box>) : (
-       <Box
-       display="flex"
-       flexDirection="column"
-       justifyContent="center"
-       alignItems="center"
-       height="100%">
-        <Typography variant="h3" sx={{ mt: 1 }}>
-          Historial de Urls
-        </Typography>
-        <Grid
-          container
-          sx={{ height: "calc(100vh - 200px)", width: "100%", mt: 1 }}
+        </Box>
+      ) : (
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
         >
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pagination
-            pageSizeOptions={pageSizeOptions}
-          />
-        </Grid>
-      </Box>)}
-
-     
+          <Typography variant="h3" sx={{ mt: 1 }}>
+            Historial de Urls
+          </Typography>
+          <Grid
+            container
+            sx={{ height: "calc(100vh - 200px)", width: "100%", mt: 1 }}
+          >
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pagination
+              pageSizeOptions={pageSizeOptions}
+            />
+          </Grid>
+        </Box>
+      )}
     </Layout>
   );
 };
