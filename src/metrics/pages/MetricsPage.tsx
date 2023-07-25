@@ -1,19 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
+import FunctionsIcon from "@mui/icons-material/Functions";
 import { Alert, Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { Layout } from "../layouts";
 import BlurLinearIcon from "@mui/icons-material/BlurLinear";
 import BlockOutlinedIcon from "@mui/icons-material/BlockOutlined";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
 import { SummaryMetrics } from "../components/SummaryMetrics";
+import AdsClickIcon from "@mui/icons-material/AdsClick";
 import {
   useGetActiveShortUrlQuery,
   useGetInactiveShortUrlQuery,
   useGetAllShortUrlQuery,
+  useGetUrlsQuery,
 } from "../../store/apiSlice";
+import { useEffect, useState } from "react";
+import { handleClicksAverage, handleCreationTimeAverage } from "../../utils";
 
 export const MetricsPage = () => {
+  const { data, isFetching } = useGetUrlsQuery();
+  const [clicksAverage, setClicksAverage] = useState(0);
+  const [timeAverage, setTimeAverage] = useState(0n);
   const {
     data: activeUrls,
     isLoading: isLoadingActive,
@@ -26,6 +35,13 @@ export const MetricsPage = () => {
   } = useGetInactiveShortUrlQuery();
 
   const { data: allUrlCreated } = useGetAllShortUrlQuery();
+  useEffect(() => {
+    handleClicksAverage(data, setClicksAverage);
+  }, [isFetching]);
+
+  useEffect(() => {
+    return handleCreationTimeAverage(data, setTimeAverage);
+  }, [isFetching]);
 
   return (
     <Layout>
@@ -63,6 +79,16 @@ export const MetricsPage = () => {
             alignItems="center"
             marginTop={10}
           >
+            <SummaryMetrics
+              title={timeAverage.toString()}
+              subTitle={"T de creación(seg)"}
+              icon={<AdsClickIcon color="info" sx={{ fontSize: 40 }} />}
+            />
+            <SummaryMetrics
+              title={clicksAverage}
+              subTitle={"Promedio clicks"}
+              icon={<FunctionsIcon color="info" sx={{ fontSize: 40 }} />}
+            />
             <SummaryMetrics
               title={allUrlCreated}
               subTitle={"Urls creadas"}

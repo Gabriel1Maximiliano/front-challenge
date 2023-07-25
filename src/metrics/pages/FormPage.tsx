@@ -23,18 +23,11 @@ import {
   useRedirectShortUrlMutation,
   useRestoreShortUrlMutation,
 } from "../../store/apiSlice";
-import { useEffect, useState } from "react";
 
-export interface DataResp {
-  id: number;
-  long_url: string;
-  dateOfCreate: Date | number;
-  is_active: number;
-  short_url: string;
-  amount_of_clicks: number;
-  deleted_of_time: Date | number;
-  retrieved_time: Date | number;
-}
+import { useEffect, useState } from "react";
+import { DataResp } from "../interfaces/metricsInterface";
+
+
 
 export const FormPage = () => {
   const columns: GridColDef[] = [
@@ -98,11 +91,11 @@ export const FormPage = () => {
   const [restoreUrl] = useRestoreShortUrlMutation();
 
   const handleRedirectUrl = async (row: DataResp) => {
-    const lastSlashIndex = row.short_url.lastIndexOf("/"); // Encuentra el índice del último "/"
+    const lastSlashIndex = row.short_url.lastIndexOf("/");
     const hashToSearch = row.short_url.substring(lastSlashIndex + 1);
     try {
-      const info = await redirectUrl(hashToSearch);
-      console.log(info);
+       await redirectUrl(hashToSearch);
+     
     } catch (error) {
       console.log(error);
     }
@@ -112,14 +105,14 @@ export const FormPage = () => {
     const lastSlashIndex = row.short_url.lastIndexOf("/");
     const hashToSearch = row.short_url.substring(lastSlashIndex + 1);
     if (row.is_active == 1) {
-      console.log("entre con 1");
+     
       try {
         return await restoreUrl(hashToSearch);
       } catch (error) {
         console.log(error);
       }
     } else if (row.is_active == 0) {
-      console.log("entre con 0");
+      
       return await deleteUrl(hashToSearch);
     }
   };

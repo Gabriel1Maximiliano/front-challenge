@@ -10,8 +10,9 @@ import { Layout } from "../layouts";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useCreateShortUrlMutation } from "../../store/apiSlice";
 import Swal from "sweetalert2";
-import { useForm } from "../../hooks/useForm";
+
 import { useEffect } from "react";
+import { useForm } from "../../hooks";
 
 export const CreateUrlPage = () => {
   const [createShortUrl, result] = useCreateShortUrlMutation();
@@ -23,7 +24,7 @@ export const CreateUrlPage = () => {
   const showAlertError = () => {
     if (httpError && httpError.data.length > 50) {
       const url = httpError.data.substring(50);
-      console.log({ url });
+    
       Swal.fire({
         icon: "success",
         title: "Ooops",

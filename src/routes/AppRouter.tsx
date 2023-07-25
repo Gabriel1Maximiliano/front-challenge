@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import { BarPage } from "../metrics/pages/BarPage";
+
 import { CreateUrlPage } from "../metrics/pages/CreateUrlPage";
 import { MetricsPage } from "../metrics/pages/MetricsPage";
 import { PiePage } from "../metrics/pages/PiePage";
@@ -13,7 +13,6 @@ export const AppRouter = () => {
     <Routes>
       <Route path="/" element={<DashBoardPage />} />
       <Route path="/pie" element={<PiePage />} />
-      <Route path="/bar" element={<BarPage />} />
       <Route path="/crear-url" element={<CreateUrlPage />} />
       <Route path="/line" element={<LinePage />} />
       <Route path="/historial" element={<FormPage />} />

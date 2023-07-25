@@ -2,19 +2,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { DataResp } from "../metrics/interfaces/metricsInterface";
 
-export interface DataResp {
-  amount_of_clicks: number;
-  deleted_time: Date | number;
-  id: number;
-  is_active: number;
-  long_url: string;
-  retrieved_time: Date | number;
-  short_url: string;
-}
+
 
 type PostsResponse = DataResp[];
-type CreateResponse = DataResp | string;
+type CreateResponse = DataResp;
 
 export const apiSlice: any = createApi({
   reducerPath: "api",
@@ -27,10 +20,12 @@ export const apiSlice: any = createApi({
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
 
+
   tagTypes: ["info"],
   endpoints: (builder) => ({
     getUrls: builder.query<PostsResponse, void>({
       query: () => "/api/url/get-created",
+      
       providesTags: ["info"],
     }),
     deleteShortUrl: builder.mutation<CreateResponse, string>({

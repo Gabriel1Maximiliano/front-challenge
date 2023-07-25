@@ -2,7 +2,7 @@ import { Grid, Card, CardContent, Typography } from "@mui/material";
 
 interface IProps {
   title: string | number;
-  subTitle: string | number;
+  subTitle: string | number | bigint;
   icon: JSX.Element | string;
 }
 
@@ -28,7 +28,7 @@ export const SummaryMetrics = ({ title, subTitle, icon = "" }: IProps) => {
           }}
         >
           <Typography variant="h3">{title}</Typography>
-          <Typography variant="caption">{subTitle}</Typography>
+          <Typography variant="caption">{subTitle.toString()}</Typography>
         </CardContent>
       </Card>
     </Grid>

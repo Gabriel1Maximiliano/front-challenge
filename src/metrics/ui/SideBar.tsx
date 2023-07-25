@@ -11,7 +11,7 @@ import AutoGraphOutlinedIcon from "@mui/icons-material/AutoGraphOutlined";
 import { UiContext } from "../context/ui";
 import { useContext } from "react";
 
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import DonutSmallOutlinedIcon from "@mui/icons-material/DonutSmallOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import FeedOutlinedIcon from "@mui/icons-material/FeedOutlined";
@@ -29,6 +29,11 @@ export const SideBar = () => {
         </Box>
 
         <Divider />
+        <CardInfoItem
+          urlToNavigate="/"
+          icon={<DashboardIcon />}
+          itemText="DashBoard"
+        />
         <CardInfoItem
           urlToNavigate="/crear-url"
           icon={<HttpIcon />}
@@ -52,7 +57,7 @@ export const SideBar = () => {
         <CardInfoItem
           urlToNavigate="/line"
           icon={<QueryStatsOutlinedIcon />}
-          itemText="Line Chart"
+          itemText="Bar Chart"
         />
 
         <Divider />
