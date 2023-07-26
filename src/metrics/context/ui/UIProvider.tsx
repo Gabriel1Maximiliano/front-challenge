@@ -1,24 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useReducer } from "react";
 import { UiContext, uiReducer } from "./";
 
-import { darkTheme } from "../../themes/dark-theme";
-import { Theme } from "@mui/material";
+import { lightTheme } from "../../themes";
 
 export interface UIState {
   isSideMenuOpen: boolean;
-  darkTheme: Theme;
+  currentMode: any;
 }
 
 const UI_Initial_State: UIState = {
   isSideMenuOpen: false,
-  darkTheme: darkTheme,
+  currentMode: lightTheme,
 };
 
 interface IProps {
   children: JSX.Element | JSX.Element[];
 }
 
-export const UIProvider = ({ children }: IProps): unknown => {
+export const UIProvider = ({ children }: IProps): any => {
   const [state, dispatch] = useReducer(uiReducer, UI_Initial_State);
 
   const openSideMenu = (): void => {
@@ -27,10 +28,7 @@ export const UIProvider = ({ children }: IProps): unknown => {
   const closeSideMenu = () => {
     dispatch({ type: "[UI]-Close SideBar" });
   };
-  const changeTheme = () => {
-    console.log("cambie en tema");
-    dispatch({ type: "[UI]-Toggle.Theme" });
-  };
+
   return (
     <UiContext.Provider
       value={{
@@ -39,7 +37,6 @@ export const UIProvider = ({ children }: IProps): unknown => {
         //Methods
         openSideMenu,
         closeSideMenu,
-        changeTheme,
       }}
     >
       {children}

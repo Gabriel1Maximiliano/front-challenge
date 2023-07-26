@@ -6,7 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 export const NavBar = () => {
-  const { openSideMenu, changeTheme } = useContext(UiContext);
+  const { openSideMenu } = useContext(UiContext);
 
   return (
     <AppBar
@@ -22,7 +22,7 @@ export const NavBar = () => {
           <Typography style={{ marginLeft: "10px" }}>Challenge Meli</Typography>
         </div>
         <div style={{ marginLeft: "auto" }}>
-          <IconButton onClick={changeTheme}>
+          <IconButton >
             <DarkModeIcon />
           </IconButton>
         </div>

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createContext } from "react";
 
 export interface ContextProps {
@@ -6,7 +8,7 @@ export interface ContextProps {
   //Methods
   openSideMenu: () => void;
   closeSideMenu: () => void;
-  changeTheme: () => void;
+  
 }
 
 export const UiContext = createContext({} as ContextProps);
