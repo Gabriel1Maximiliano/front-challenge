@@ -1,5 +1,5 @@
-import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
 interface IProps {
   urlToNavigate: string;

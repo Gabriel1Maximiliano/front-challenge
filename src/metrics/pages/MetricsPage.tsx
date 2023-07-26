@@ -81,7 +81,7 @@ export const MetricsPage = () => {
           >
             <SummaryMetrics
               title={timeAverage.toString()}
-              subTitle={"T de creación(seg)"}
+              subTitle={"T de creación(ms)"}
               icon={<AdsClickIcon color="info" sx={{ fontSize: 40 }} />}
             />
             <SummaryMetrics

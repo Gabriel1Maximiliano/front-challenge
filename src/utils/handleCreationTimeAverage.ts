@@ -16,8 +16,8 @@ export const handleCreationTimeAverage = ( data:DataResp[]=[],setAverage: React.
         suma += BigInt(url.retrieved_time);
       }
     });
-  
-    const average = (suma / BigInt(divisor));
-    console.log(average)
+   
+   const average = (suma / BigInt(divisor));
+   
     setAverage(average);
 }

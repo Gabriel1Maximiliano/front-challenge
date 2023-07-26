@@ -18,7 +18,7 @@ interface IProps {
   children: JSX.Element | JSX.Element[];
 }
 
-export const UIProvider = ({ children }: IProps): any => {
+export const UIProvider = ({ children }: IProps): unknown => {
   const [state, dispatch] = useReducer(uiReducer, UI_Initial_State);
 
   const openSideMenu = (): void => {

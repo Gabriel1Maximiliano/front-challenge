@@ -21,7 +21,10 @@ export const useForm = (
       setError('Dominio no autorizado debe contener "mercadolibre"');
     } else if (value.length === 0) {
       setError("Ingrese Url");
-    } else {
+    } else if (!value.startsWith("https")) {
+      setError("Su url debe comenzar con 'https'");
+    } 
+    else {
       setError("");
     }
   };

@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Box } from "@mui/material";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
+
 import {
   useGetActiveShortUrlQuery,
   useGetAllShortUrlQuery,
   useGetInactiveShortUrlQuery,
 } from "../../store/apiSlice";
+import { Pie } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Box } from "@mui/material";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

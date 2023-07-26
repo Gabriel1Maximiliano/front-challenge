@@ -8,7 +8,8 @@ export const handleClicksAverage = (
   data &&
     data.forEach((url) => {
       if (url.is_active === 0) {
-        return setAverage((suma += url.amount_of_clicks / data.length));
+        const result = (suma += url.amount_of_clicks / data.length).toFixed(2);
+        return setAverage(Number(result));
       }
     });
 };

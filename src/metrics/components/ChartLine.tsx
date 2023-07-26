@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import Box from "@mui/material/Box";
 import {
   useGetActiveShortUrlQuery,
   useGetInactiveShortUrlQuery,
@@ -17,6 +16,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { Alert, CircularProgress } from "@mui/material";
+import Box from "@mui/material/Box";
 
 
 ChartJS.register(
