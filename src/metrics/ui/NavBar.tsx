@@ -17,13 +17,13 @@ export const NavBar = () => {
       <Toolbar>
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconButton size="large" onClick={openSideMenu}>
-            <MenuIcon />
+            <MenuIcon data-testid="menu-icon" />
           </IconButton>
-          <Typography style={{ marginLeft: "10px" }}>Challenge Meli</Typography>
+          <Typography data-testid="title-test"  style={{ marginLeft: "10px" }}>Challenge Meli</Typography>
         </div>
         <div style={{ marginLeft: "auto" }}>
           <IconButton >
-            <DarkModeIcon />
+            <DarkModeIcon data-testid="dark-mode-icon" />
           </IconButton>
         </div>
       </Toolbar>

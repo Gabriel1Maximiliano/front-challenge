@@ -1,19 +1,20 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { render } from "@testing-library/react";
+import { render,screen } from "@testing-library/react";
 import { NavBar } from "../../../metrics/ui";
 
 describe("Pruebas sobre <NavBar />", () => {
-  const { container } = render(<NavBar />);
 
+  const title = "Challenge Meli";
+  
   test("Debe hacer match con el SnapShot", () => {
+    const { container } = render(<NavBar />);
     expect(container).toMatchSnapshot();
   });
   test("Debe mostrar Challenge Meli en una etiqueta <p></p> ", () => {
-    const { getByText } = render(<NavBar />);
-
-    const title = "Challenge Meli";
-
-    expect(getByText(title)).toBeTruthy();
+     render(<NavBar />);
+     expect( screen.getByText( title ) ).toBeTruthy();
+    
+   
   });
   test("Debe mostrar Challenge Meli", () => {
     const title = "Challenge Meli";
